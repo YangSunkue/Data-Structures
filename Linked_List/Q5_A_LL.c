@@ -55,7 +55,8 @@ int main()
 	resultBackList.size = 0;
 
 	printf("1: Insert an integer to the linked list:\n");
-	printf("2: Split the linked list into two linked lists, frontList and backList:\n");
+	printf("2: Print the linked list:\n");
+	printf("3: Split the linked list into two linked lists, frontList and backList:\n");
 	printf("0: Quit:\n");
 
 	while (c != 0)
@@ -72,7 +73,11 @@ int main()
 			printf("The resulting linked list is: ");
 			printList(&ll);
 			break;
-		case 2:
+        case 2:
+            printf("The resulting linked list is: ");
+            printList(&ll);
+            break;
+		case 3:
 			printf("The resulting linked lists after splitting the given linked list are:\n");
 			frontBackSplitLinkedList(&ll, &resultFrontList, &resultBackList); // You need to code this function
 			printf("Front linked list: ");
@@ -95,6 +100,7 @@ int main()
 		}
 	}
 
+
 	return 0;
 }
 
@@ -102,7 +108,27 @@ int main()
 
 void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, LinkedList *resultBackList)
 {
-	/* add your code here */
+	ListNode *findedNode;
+    int front;
+
+    // front 인덱스까지 front에 담기
+    if(ll->size % 2 == 0) {   
+        front = (ll->size / 2) - 1;
+    }
+    else {
+        front = ll->size / 2;
+    }
+    
+    for(int i = 0; i < ll->size; i++) {
+        findedNode = findNode(ll, i);
+
+        if(i <= front) {
+            insertNode(resultFrontList, resultFrontList->size, findedNode->item);
+        }
+        else {
+            insertNode(resultBackList, resultBackList->size, findedNode->item);
+        }
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

@@ -11,14 +11,12 @@ Purpose: Implementing the required functions for Question 2 */
 
 //////////////////////////////////////////////////////////////////////////////////
 
-typedef struct _listnode
-{
+typedef struct _listnode{
 	int item;
 	struct _listnode *next;
 } ListNode;			// You should not change the definition of ListNode
 
-typedef struct _linkedlist
-{
+typedef struct _linkedlist{
 	int size;
 	ListNode *head;
 } LinkedList;			// You should not change the definition of LinkedList
@@ -34,6 +32,9 @@ void removeAllItems(LinkedList *ll);
 ListNode *findNode(LinkedList *ll, int index);
 int insertNode(LinkedList *ll, int index, int value);
 int removeNode(LinkedList *ll, int index);
+
+// 내가만든함수
+void reremoveNode(LinkedList *ll, int index);
 
 
 //////////////////////////// main() //////////////////////////////////////////////
@@ -84,8 +85,8 @@ int main()
 			printList(&ll1);
 			printf("The resulting linked list 2: ");
 			printList(&ll2);
-			removeAllItems(&ll1);
-			removeAllItems(&ll2);
+			// removeAllItems(&ll1);
+			// removeAllItems(&ll2);
 			break;
 		case 0:
 			removeAllItems(&ll1);
@@ -103,7 +104,34 @@ int main()
 
 void alternateMergeLinkedList(LinkedList *ll1, LinkedList *ll2)
 {
-    /* add your code here */
+	ListNode *insertValue;
+	int result;
+	int num = 0;
+	int l1Size = ll1->size;
+
+    for(int i = 0; i < ll2->size + 1; i++) {
+		if(i == ll2->size) {   // 리스트2를 모두 돌았을 경우( 모든값을 리스트1에 넣은경우 )
+			reremoveNode(ll2, i - 1);  // 리스트2의 모든 값 삭제
+			break;
+		}
+
+		if(i == l1Size) {  // 리스트1에 삽입할 수 없을 경우(리스트1 끝났을 경우)
+			reremoveNode(ll2, i - 1);
+			break;
+		}
+		
+		// 삽입 가능하면 해당 인덱스 +1 자리에 삽입한다
+		insertValue = findNode(ll2, i);
+		result = insertNode(ll1, i + 1 + num, insertValue->item);
+		num += 1;
+	}
+}
+
+// 입력받은 인덱스까지 삭제한다
+void reremoveNode(LinkedList *ll, int index) {
+	for(int i = 0; i < index + 1; i++) {
+		removeNode(ll, 0);
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

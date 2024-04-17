@@ -86,7 +86,31 @@ int main()
 
 void moveEvenItemsToBack(LinkedList *ll)
 {
-	/* add your code here */
+	ListNode *findedNode;
+    int num = 0;
+	// 모든 짝수를 뒤로 이동시키는 함수
+    int size = ll->size;
+    int *array = malloc(size * sizeof(int));  // 메모리를 배열처럼 사용
+    for(int i = 0; i < size; i++) {
+        array[i] = 1000000000;
+    }
+
+    for(int i = 0; i < size; i++) {   // 모든 요소에 대해 반복한다
+        findedNode = findNode(ll, i - num);
+        if(findedNode->item % 2 == 0) {    // item이 짝수라면
+            array[i] = findedNode->item;  // 배열에 추가해놓고 노드 삭제하기
+
+            // 삭제할 때 index변경되는 거 수정하기
+            removeNode(ll, i - num);
+            num += 1;
+        }
+    }
+    for(int i = 0; i < size; i++) {
+        printf("i : %d, array : %d\n", i, array[i]);
+        if(array[i] != 1000000000) {
+            insertNode(ll, ll->size, array[i]);
+        }
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

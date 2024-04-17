@@ -46,6 +46,8 @@ BTNode* pop(Stack *stack);
 void printTree(BTNode *node);
 void removeAll(BTNode **node);
 
+void inOrder(BTNode *cur, int value);
+
 ///////////////////////////// main() /////////////////////////////////////////////
 
 int main()
@@ -105,7 +107,21 @@ int main()
 
 void printSmallerValues(BTNode *node, int m)
 {
-	/* add your code here */
+	BTNode *cur = node;
+    inOrder(cur, m);
+}
+
+void inOrder(BTNode *cur, int value) {
+    if(cur == NULL) {
+        return;
+    }
+
+    if(cur->item < value) {
+        printf("%d ", cur->item);
+    }
+
+    inOrder(cur->left, value);
+    inOrder(cur->right, value);
 }
 
 //////////////////////////////////////////////////////////////////////////////////

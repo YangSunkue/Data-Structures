@@ -46,6 +46,8 @@ BTNode* pop(Stack *stack);
 void printTree(BTNode *node);
 void removeAll(BTNode **node);
 
+void inOrder(BTNode *cur, int *num);
+
 ///////////////////////////// main() /////////////////////////////////////////////
 
 int main()
@@ -100,10 +102,25 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-int sumOfOddNodes(BTNode *node)
+int sumOfOddNodes(BTNode *node) {
+    BTNode *cur = node;
+    int x = 0;
+    int *num = &x;
 
-{
-    /* add your code here */
+    inOrder(cur, num);
+    return *num;
+}
+
+void inOrder(BTNode *cur, int *num) {
+    if(cur == NULL) {
+        return;
+    }
+    
+    inOrder(cur->left, num);
+    if(cur->item % 2 == 1) {
+        *num = *num + cur->item;
+    }
+    inOrder(cur->right, num);
 }
 
 //////////////////////////////////////////////////////////////////////////////////

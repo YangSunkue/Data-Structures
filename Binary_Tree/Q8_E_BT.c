@@ -8,6 +8,7 @@ Purpose: Implementing the required functions for Question 8 */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -45,6 +46,8 @@ BTNode* pop(Stack *stack);
 
 void printTree(BTNode *node);
 void removeAll(BTNode **node);
+
+void grandMa(BTNode *cur, int *height, int *max);
 
 ///////////////////////////// main() /////////////////////////////////////////////
 
@@ -102,7 +105,33 @@ int main()
 
 int hasGreatGrandchild(BTNode *node)
 {
-	/* add your code here */
+	BTNode *cur = node;
+    int x = -1;
+    int y = INT_MIN;
+    int *height = &x;
+    int *max = &y;
+
+    grandMa(cur, height, max);
+}
+
+void grandMa(BTNode *cur, int *height, int *max) {
+    if(cur == NULL) {
+        return;
+    }
+
+    *height = *height + 1;
+    if(*height > *max) {
+        *max = *height;
+    }
+
+    grandMa(cur->left, height, max); 
+    grandMa(cur->right, height, max);
+
+    if(*max - 3 == *height) {
+        printf("%d \n", cur->item);
+        *max = *max - 1;
+    }
+    *height = *height - 1;
 }
 
 //////////////////////////////////////////////////////////////////////////////////

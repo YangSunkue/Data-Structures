@@ -8,6 +8,7 @@ Purpose: Implementing the required functions for Question 2 */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 //////////////////////////////////////////////////////////////////////////////////
 typedef struct _btnode{
@@ -40,6 +41,8 @@ BTNode* pop(Stack *stk);
 
 void printTree(BTNode *node);
 void removeAll(BTNode **node);
+
+void inOrder(BTNode *cur, int *height, int *max);
 
 ///////////////////////////// main() /////////////////////////////////////////////
 
@@ -97,7 +100,40 @@ int main()
 int maxHeight(BTNode *node)
 
 {
-    /* add your code here */
+    // 시작 높이, 시작 노드
+    int x = -1;
+    int *height = &x;
+    int y = INT_MIN;
+    int *max = &y;
+
+    BTNode *cur = node;
+    inOrder(cur, height, max);
+
+    if(*max != INT_MIN) {
+        return *max;
+    }
+    else {
+        return -1;
+    }
+
+}
+
+void inOrder(BTNode *cur, int *height, int *max) {
+    if(cur == NULL) {
+        return;
+    }
+    // 노드 방문할 때마다 높이 1추가하고 최대값 갱신
+    *height = *height + 1;
+    if(*height > *max) {
+        *max = *height;
+    }
+
+    // 중위 순회
+    inOrder(cur->left, height, max);
+    inOrder(cur->right, height, max);
+
+    // 부모 노드로 돌아갈 때 height에서 1 빼주기
+    *height = *height - 1;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

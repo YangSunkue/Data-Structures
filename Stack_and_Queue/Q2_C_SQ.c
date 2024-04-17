@@ -91,8 +91,8 @@ int main()
 			removeEvenValues(&s); // You need to code this function
 			printf("The resulting stack after removing even integers is: ");
 			printList(&(s.ll));
-			removeAllItemsFromStack(&s);
-			removeAllItems(&ll);
+			// removeAllItemsFromStack(&s);
+			// removeAllItems(&ll);
 			break;
 		case 0:
 			removeAllItemsFromStack(&s);
@@ -113,12 +113,50 @@ int main()
 
 void createStackFromLinkedList(LinkedList *ll, Stack *s)
 {
-    /* add your code here */
+    ListNode *node = ll->head;
+	int value;
+
+	// stack이 비어있지 않을 경우 비우기
+	if(!isEmptyStack(s)) {
+		removeAllItemsFromStack(s);
+	}
+
+	// stack에 LL값 push하기
+	while(node != NULL) {
+		value = node->item;
+		push(s, value);
+		node = node->next;
+	}
 }
 
 void removeEvenValues(Stack *s)
 {
-	/* add your code here */
+	int size = s->ll.size;
+	int value;
+
+	// 배열 메모리 할당 + 초기화
+	int *array = malloc(size * sizeof(int));
+	for(int i = 0; i < size; i++) {
+		array[i] = -1e9;
+	}
+
+	// 스택을 pop하면서 홀수만 배열에 저장
+	for(int i = 0; i < size; i++) {
+		value = pop(s);
+
+		if(value % 2 == 1 && value > array[i]) {
+			array[i] = value;
+		}
+	}
+
+	// 배열에 있는 홀수를 다시 스택에 넣기
+	for(int i = size-1; i > -1; i--) {
+		if(array[i] > -1e9) {
+			push(s, array[i]);
+		}
+	}
+
+	free(array);
 }
 
 //////////////////////////////////////////////////////////////////////////////////

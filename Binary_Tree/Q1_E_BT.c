@@ -8,6 +8,7 @@ Purpose: Implementing the required functions for Question 1 */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 //////////////////////////////////////////////////////////////////////////////////
 typedef struct _btnode{
@@ -40,6 +41,8 @@ BTNode* pop(Stack *stk);
 
 void printTree(BTNode *node);
 void removeAll(BTNode **node);
+
+void inOrder(BTNode *tree, int *runTree, int *cnt);
 
 ///////////////////////////// main() /////////////////////////////////////////////
 
@@ -114,9 +117,59 @@ int main()
 //////////////////////////////////////////////////////////////////////////////////
 
 int identical(BTNode *tree1, BTNode *tree2)
-
 {
-   /* add your code here */
+    // 배열 2개 할당 및 초기화
+    int *runTree1 = (int *)malloc(50 * sizeof(int));
+    int *runTree2 = (int *)malloc(50 * sizeof(int));
+    for(int i = 0; i < 50; i++) {
+        runTree1[i] = INT_MIN;
+        runTree2[i] = INT_MIN;
+    }
+
+    // 각 트리 시작지점 할당
+    BTNode *cur1 = tree1;
+    BTNode *cur2 = tree2;
+
+    int *cnt;
+    int x = 0;
+    cnt = &x;
+    int index;
+
+    // 트리 순회 결과를 배열에 각각 저장
+    inOrder(cur1, runTree1, cnt);
+    index = *cnt;
+    *cnt = 0;
+    inOrder(cur2, runTree2, cnt);
+
+    // 배열 비교하기, 배열 크기만큼 반복
+    for(int i = 0; i < index + 1; i++) {
+        if(runTree1[i] != runTree2[i]) {
+            return 0;
+        }
+    }
+
+    free(runTree1);
+    free(runTree2);
+    return 1;
+    
+}
+
+// 트리 중위 순회 + 배열에 노드 저장
+void inOrder(BTNode *tree, int *runTree, int *cnt) {
+    
+    // 시작 노드
+    BTNode *cur = tree;
+
+    // 빈 노드면 돌아가기
+    if(cur == NULL) {
+        return;
+    }
+
+    // left, root, right 순으로 순회하기
+    inOrder(cur->left, runTree, cnt);
+    runTree[*cnt] = cur->item;
+    *cnt = *cnt + 1;
+    inOrder(cur->right, runTree, cnt);
 }
 
 /////////////////////////////////////////////////////////////////////////////////

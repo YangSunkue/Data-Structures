@@ -46,6 +46,8 @@ BTNode* pop(Stack *stack);
 void printTree(BTNode *node);
 void removeAll(BTNode **node);
 
+void reverseTree(BTNode *cur);
+
 ///////////////////////////// main() /////////////////////////////////////////////
 
 int main()
@@ -105,7 +107,21 @@ int main()
 
 void mirrorTree(BTNode *node)
 {
-	/* add your code here */
+	BTNode *cur = node;
+    reverseTree(cur);
+}
+
+void reverseTree(BTNode *cur) {
+    if(cur == NULL) {
+        return;
+    }
+
+    BTNode *tmp = cur->left;
+    cur->left = cur->right;
+    cur->right = tmp;
+
+    reverseTree(cur->left);
+    reverseTree(cur->right);
 }
 
 //////////////////////////////////////////////////////////////////////////////////

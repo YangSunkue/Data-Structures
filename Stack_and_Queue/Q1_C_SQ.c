@@ -94,8 +94,8 @@ int main()
 			removeOddValues(&q); // You need to code this function
 			printf("The resulting queue after removing odd integers is: ");
 			printList(&(q.ll));
-			removeAllItemsFromQueue(&q);
-			removeAllItems(&ll);
+			// removeAllItemsFromQueue(&q);
+			// removeAllItems(&ll);
 			break;
 		case 0:
 			removeAllItemsFromQueue(&q);
@@ -114,14 +114,50 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
+// LL로 Queue 만들기
 void createQueueFromLinkedList(LinkedList *ll, Queue *q)
 {
-	/* add your code here */
+	ListNode *node = ll->head;
+
+	// 큐가 비어있지 않으면 비우기
+	if(!isEmptyQueue(q)) {
+		removeAllItemsFromQueue(q);
+	}
+
+	// 큐에 LL값 추가
+	while(node != NULL) {
+		enqueue(q, node->item);
+		node = node->next;
+	}
 }
 
+// Queue에서 홀수 값 제거하기
 void removeOddValues(Queue *q)
 {
-	/* add your code here */
+
+	// 배열 할당
+	int size = q->ll.size;
+	int *array = malloc(size * sizeof(int));
+	for(int i = 0; i < size; i++) {
+		array[i] = -1e9;
+	}
+	int value;
+
+	// 큐에서 값 꺼내기
+	for(int i = 0; i < size; i++) {
+		value = dequeue(q);
+		// 짝수만 배열에 저장
+		if(value % 2 == 0 && value > array[i]) {
+			array[i] = value;
+		}
+	}
+
+	// 배열에 저장된 짝수들을 다시 큐에 삽입하기
+	for(int i = 0; i < size; i++) {
+		if(array[i] > -1e9) {
+			enqueue(q, array[i]);
+		}
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////

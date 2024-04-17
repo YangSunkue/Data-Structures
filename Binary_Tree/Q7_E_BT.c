@@ -8,6 +8,7 @@ Purpose: Implementing the required functions for Question 7 */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -45,6 +46,8 @@ BTNode* pop(Stack *stack);
 
 void printTree(BTNode *node);
 void removeAll(BTNode **node);
+
+void inOrder(BTNode *cur, int *min);
 
 ///////////////////////////// main() /////////////////////////////////////////////
 
@@ -102,7 +105,24 @@ int main()
 
 int smallestValue(BTNode *node)
 {
-	/* add your code here */
+	BTNode *cur = node;
+    int x = INT_MAX;
+    int *min = &x;
+
+    inOrder(cur, min);
+    return *min;
+}  
+
+void inOrder(BTNode *cur, int *min) {
+    if(cur == NULL) {
+        return;
+    }
+
+    inOrder(cur->left, min);
+    if(cur->item < *min) {
+        *min = cur->item;
+    }
+    inOrder(cur->right, min);
 }
 
 //////////////////////////////////////////////////////////////////////////////////

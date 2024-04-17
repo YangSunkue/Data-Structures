@@ -8,6 +8,7 @@ Purpose: Implementing the required functions for Question 6 */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -71,7 +72,7 @@ int main()
 			moveMaxToFront(&(ll.head));  // You need to code this function
 			printf("The resulting linked list after moving largest stored value to the front of the list is: ");
 			printList(&ll);
-			removeAllItems(&ll);
+			// removeAllItems(&ll);
 			break;
 		case 0:
 			removeAllItems(&ll);
@@ -86,9 +87,35 @@ int main()
 
 ////////////////////////////////////////////////////////////////////////
 
-int moveMaxToFront(ListNode **ptrHead)
-{
-    /* add your code here */
+int moveMaxToFront(ListNode **ptrHead) {
+
+	ListNode *preHead = *ptrHead;
+	int max = INT_MIN;
+	ListNode *maxNode = NULL;
+	ListNode *preMaxNode = NULL;
+	ListNode *prev = NULL;
+
+	// 노드 순회하며 최대값 찾기
+	for(ListNode *current = preHead; current != NULL; current = current->next) {
+		if(current->item > max) {
+			max = current->item;
+			maxNode = current;
+			preMaxNode = prev;
+		}
+		prev = current;
+	}
+
+	// maxNode가 첫번째가 아니었다면 첫번째로 옮기기
+	if(maxNode != NULL) {
+		if(preMaxNode != NULL) {
+			preMaxNode->next = maxNode->next;
+			maxNode->next = preHead;
+			*ptrHead = maxNode;
+		}
+	}
+	return 0;
+
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////

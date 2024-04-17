@@ -44,6 +44,8 @@ BTNode* pop(Stack *stack);
 void printTree(BTNode *node);
 void removeAll(BTNode **node);
 
+int oneChild(BTNode *cur, int *count);
+
 ///////////////////////////// main() /////////////////////////////////////////////
 
 int main()
@@ -98,10 +100,29 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-int countOneChildNodes(BTNode *node)
+int countOneChildNodes(BTNode *node){
+    
+    BTNode *cur = node;
+    int x = 0;
+    int *count = &x;
 
-{
-    /* add your code here */
+    oneChild(cur, count);
+    return *count;
+}
+
+int oneChild(BTNode *cur, int *count) {
+    if(cur == NULL) {
+        return 0;
+    }
+    int a;
+    int b;
+    a = oneChild(cur->left, count);
+    b = oneChild(cur->right, count);
+
+    if(a + b == 1) {
+        *count = *count + 1;
+    }
+    return 1;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

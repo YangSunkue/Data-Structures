@@ -111,7 +111,36 @@ int main()
 
 void removeUntil(Stack *s, int value)
 {
-/* add your code here */
+    // value부터 배열에 저장해둔 후, 역순으로 stack에 다시 삽입하기
+    int item;
+    int flag = 0;
+
+    // 배열 할당, 초기화
+    int size = s->ll.size;
+    int *array = malloc(size * sizeof(int));
+    for(int i = 0; i < size; i++) {
+        array[i] = -1e9;
+    }
+
+    for(int i = 0; i < size; i++) {
+        item = pop(s);
+        if(item == value) {
+            flag++;
+        }
+        
+        // 입력받은 value부터 배열에 저장
+        if(flag > 0) {
+            array[i] = item;
+        }
+    }
+
+    for(int i = size - 1; i > -1; i--) {
+        if(array[i] > -1e9) {
+            push(s, array[i]);
+        }
+    }
+
+    free(array);
 }
 
 //////////////////////////////////////////////////////////////////////////////////

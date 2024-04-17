@@ -107,9 +107,23 @@ int main()
 
 ////////////////////////////////////////////////////////////
 
-void recursiveReverse(Queue *q)
-{
-/* add your code here */
+void recursiveReverse(Queue *q) {
+
+    int value;
+
+    // 큐가 비었으면 return
+    if(isEmptyQueue(q)) {
+        return;
+    }
+    
+    // pop해서 가지고 있기
+    value = dequeue(q);
+
+    // 재귀호출, 끝에 다다를 때까지 pop한다
+    recursiveReverse(q);
+
+    // 끝까지 다 pop했으면 return 했을테고, 역순으로 다시 push한다
+    enqueue(q, value);
 }
 
 //////////////////////////////////////////////////////////////////

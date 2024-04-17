@@ -104,7 +104,52 @@ int main()
 ////////////////////////////////////////////////////////////
 int balanced(char *expression)
 {
-/* add your code here */
+    Stack s;
+    s.ll.size = 0;
+    int count = 0;
+    char item = expression[0];
+    printf("%c\n", item);
+    char value;
+
+    
+    // item이 괄호가 아니면 중지한다
+    while(item == '{' || item == '}' || item == '[' || item == ']' || item == '(' || item == ')') {
+        // 여는 괄호면 스택에 추가하기
+        if(item == '{' || item == '[' || item == '(') {
+            push(&s, item);
+        }
+        // 닫는 괄호일 경우 스택에서 빼서 현재 item과 비교하기(같은 종류의 괄호여야 함)
+        else {
+            // 닫는 괄호인데 여는 괄호 스택에 없으면 not balanced
+            if(isEmptyStack(&s)) {
+                return 1;
+            }
+
+            value = pop(&s);
+            printf("item : %c, value : %c\n", item, value);
+            switch (item)
+            {
+            case '}':
+                if(value != '{') {
+                    return 1;
+                }
+                break;
+            case ']':
+                if(value != '[') {
+                    return 1;
+                }
+                break;
+            case ')':
+                if(value != '(') {
+                    return 1;
+                }
+                break;
+            }
+        }
+        count++;
+        item = expression[count];
+    }
+    return 0;
 }
 
 ////////////////////////////////////////////////////////////
